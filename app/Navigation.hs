@@ -1,4 +1,4 @@
-module Navigation (find, depth, navigate) where
+module Navigation (find, depth, navigate, directionTo) where
 
 import Model
 import Prelude hiding (Left, Right)
@@ -11,10 +11,9 @@ find node val stack = do
     Just x -> do
       if val == value x then
         (node, stack)
-      else if val < value x then
-        find (left x) val (stack ++ [Left])
       else
-        find (right x) val (stack ++ [Right])
+        find (navigateOnce x direction) val (stack ++ [direction]) where direction = directionTo (value x) val
+
 
 depth :: Maybe Node->Int->Int
 depth node layer = do
@@ -24,6 +23,9 @@ depth node layer = do
 
 navigateOnce :: Node->Direction->Maybe Node
 navigateOnce node direction = if direction == Left then left node else right node
+
+directionTo :: Int->Int->Direction
+directionTo current target = if target < current then Left else Right
 
 navigate :: [Maybe Node]->[Direction]->[Maybe Node]
 navigate mTree [] = mTree
