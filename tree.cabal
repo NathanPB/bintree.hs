@@ -35,6 +35,10 @@ library
 executable tree-exe
   main-is: Main.hs
   other-modules:
+      Model
+      Navigation
+      Show
+      Transformation
       Paths_tree
   hs-source-dirs:
       app
