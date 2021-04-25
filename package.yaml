@@ -38,7 +38,7 @@ executables:
 
 tests:
   tree-test:
-    main:                Spec.hs
+    main:                Main.hs
     source-dirs:         test
     ghc-options:
     - -threaded
@@ -46,3 +46,5 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - tree
+    - tasty
+    - tasty-hunit
