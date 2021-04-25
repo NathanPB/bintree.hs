@@ -10,18 +10,21 @@ leftNode = Node { value = 25, left = Nothing, right = Nothing }
 rightNode = Node { value = 35, left = Nothing, right = Nothing }
 parentNode = Node { value = 30, left = Just leftNode, right = Just rightNode }
 
-orientationSpecs = [ orientToLeft, orientIfEquals, orientToRight, orientToLeft', orientIfEquals', orientToRight' ]
+orientationSpecs = [ 
+  orientToLeft, orientIfEquals, orientToRight,
+  orientToLeft', orientIfEquals', orientToRight',
+  traceDirectionEmpty, traceDirectionSingleElement, traceDirectionComplex ]
 
-orientToLeft = testCase "Must be Left" $ assertEqual "Because 30 > 25" Left $ directionRelativeTo parentNode leftNode
-
+orientToLeft   = testCase "Must be Left"  $ assertEqual "Because 30 > 25"   Left $ directionRelativeTo parentNode leftNode
 orientIfEquals = testCase "Must be Right" $ assertEqual "Because 30 == 30" Right $ directionRelativeTo parentNode parentNode
-
-orientToRight = testCase "Must be Right" $ assertEqual "Because 30 < 35" Right $ directionRelativeTo parentNode rightNode
-
+orientToRight  = testCase "Must be Right" $ assertEqual "Because 30 < 35"  Right $ directionRelativeTo parentNode rightNode
 
 
-orientToLeft' = testCase "Must be Left" $ assertEqual "Because 30 > 25" Left $ directionRelativeTo' 30 25
 
+orientToLeft'   = testCase "Must be Left"  $ assertEqual "Because 30 > 25"   Left $ directionRelativeTo' 30 25
 orientIfEquals' = testCase "Must be Right" $ assertEqual "Because 30 == 30" Right $ directionRelativeTo' 30 30
+orientToRight'  = testCase "Must be Right" $ assertEqual "Because 30 < 35"  Right $ directionRelativeTo' 30 35
 
-orientToRight' = testCase "Must be Right" $ assertEqual "Because 30 < 35" Right $ directionRelativeTo' 30 35
+traceDirectionEmpty =         testCase "Trace the direction of empty array"     $ assertEqual "Must be empty" [] $ traceDirection' [] []
+traceDirectionSingleElement = testCase "Trace the direction of 1 element array" $ assertEqual "Must be empty" [] $ traceDirection' [0] []
+traceDirectionComplex =       testCase "Trace the direction of a complex trace" $ assertEqual ""  [Left, Left, Right] $ traceDirection' [30, 25, 5, 10] []
