@@ -4,7 +4,6 @@ import Model
 import Show
 import Navigation
 import Transformation
-import Introspect
 import Assemble
 import Prelude hiding (Left, Right)
 

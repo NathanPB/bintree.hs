@@ -3,7 +3,7 @@ module AssembleSpec (assembleSpecs) where
 
 import Model
 import Assemble
-import Introspect
+import Navigation
 import Test.Tasty
 import Test.Tasty.HUnit
 

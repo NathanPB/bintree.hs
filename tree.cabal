@@ -26,7 +26,6 @@ source-repository head
 library
   exposed-modules:
       Assemble
-      Introspect
       Model
       Navigation
       Orientations
@@ -57,7 +56,7 @@ test-suite tree-test
   main-is: Main.hs
   other-modules:
       AssembleSpec
-      IntrospectSpec
+      NavigationSpec
       OrientationSpec
       Paths_tree
   hs-source-dirs:
