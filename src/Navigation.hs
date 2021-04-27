@@ -12,24 +12,21 @@ import Orientations
 import Prelude hiding (Left, Right)
 
 find :: Maybe Node->Int->[Direction]->(Maybe Node, [Direction])
-find node val stack = do
-  case node of
-    Nothing -> (Nothing, stack)
-    Just x -> do
-      if val == value x then
-        (node, stack)
-      else
-        find (nodeAt direction x) val (stack ++ [direction]) where direction = directionRelativeTo' (value x) val
+find Nothing _ stack    = (Nothing, stack)
+find (Just x) val stack
+ | val == value x = (Just x, stack)
+ | otherwise = find (nodeAt direction x) val (stack ++ [direction])
+     where direction = directionRelativeTo (value x) val
 
 findTraced' :: Node->Int->[Node]->[Node]
 findTraced' node val trace =
   if val == value node then trace else
-  case nodeAt (directionRelativeTo' (value node) val) node of
+  case nodeAt (directionRelativeTo (value node) val) node of
     Nothing -> trace
     Just nextNode -> findTraced' nextNode val $ trace ++ [nextNode]
 
 findTraced :: Node->Int->[Direction]
-findTraced node val = traceDirection (findTraced' node val [])
+findTraced node val = traceDirection (map value (findTraced' node val [])) []
 
 depth :: Maybe Node->Int->Int
 depth node layer = do
@@ -39,12 +36,12 @@ depth node layer = do
 
 
 clr :: Maybe Node->[Int]->[Int]
-clr mNode stack = case mNode of
-  Nothing -> stack
-  Just node -> clr (nodeAt Right node) $ clr (nodeAt Left node) (stack ++ [value node])
+clr Nothing stack                                          = stack
+clr (Just (Node { left = l, right = r, value = x })) stack = clr r $ clr l $ stack ++ [x]
 
 nodeAt :: Direction->Node->Maybe Node
-nodeAt direction = (if direction == Left then left else right)
+nodeAt Left  = left
+nodeAt Right = right
   
 navigate :: Node->[Direction]->Maybe Node
 navigate parent [] = Just parent
