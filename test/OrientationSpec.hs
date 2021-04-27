@@ -15,14 +15,14 @@ orientationSpecs = [
   orientToLeft', orientIfEquals', orientToRight',
   traceDirectionEmpty, traceDirectionSingleElement, traceDirectionComplex ]
 
-orientToLeft   = testCase "Must be Left"  $ assertEqual "Because 30 > 25"   Left $ directionRelativeTo parentNode leftNode
-orientIfEquals = testCase "Must be Right" $ assertEqual "Because 30 == 30" Right $ directionRelativeTo parentNode parentNode
+orientToLeft   = testCase "Must be Left"  $ assertEqual "Because 30 > 25"  Left $ directionRelativeTo parentNode leftNode
+orientIfEquals = testCase "Must be Left"  $ assertEqual "Because 30 == 30" Left $ directionRelativeTo parentNode parentNode
 orientToRight  = testCase "Must be Right" $ assertEqual "Because 30 < 35"  Right $ directionRelativeTo parentNode rightNode
 
 
 
-orientToLeft'   = testCase "Must be Left"  $ assertEqual "Because 30 > 25"   Left $ directionRelativeTo' 30 25
-orientIfEquals' = testCase "Must be Right" $ assertEqual "Because 30 == 30" Right $ directionRelativeTo' 30 30
+orientToLeft'   = testCase "Must be Left"  $ assertEqual "Because 30 > 25"  Left $ directionRelativeTo' 30 25
+orientIfEquals' = testCase "Must be Left"  $ assertEqual "Because 30 == 30" Left $ directionRelativeTo' 30 30
 orientToRight'  = testCase "Must be Right" $ assertEqual "Because 30 < 35"  Right $ directionRelativeTo' 30 35
 
 traceDirectionEmpty =         testCase "Trace the direction of empty array"     $ assertEqual "Must be empty" [] $ traceDirection' [] []
