@@ -20,7 +20,7 @@ deleteNode :: Node->[Direction]->Maybe Node
 deleteNode (Node { left  = Nothing, right = Nothing })        [] = Nothing
 deleteNode (Node { left  = Just onlyChild, right = Nothing }) [] = Just onlyChild
 deleteNode (Node { right = Just onlyChild, left  = Nothing }) [] = Just onlyChild
-deleteNode c@(Node { left = Just l, right = Just r })         [] = Just Node {
+deleteNode (Node { left = Just l, right = Just r })           [] = Just Node {
   value = value $ lowestNode,
   left = Just l,
   right = right lowestNode
