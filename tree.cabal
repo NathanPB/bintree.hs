@@ -59,6 +59,7 @@ test-suite tree-test
       NavigationSpec
       OrientationSpec
       TestUtils
+      TransformationSpec
       Paths_tree
   hs-source-dirs:
       test
