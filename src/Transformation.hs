@@ -1,7 +1,6 @@
 module Transformation (append, setNodeAt, deleteNode) where
 
 import Model
-import Orientations
 import Navigation
 import Prelude hiding (Left, Right)
 

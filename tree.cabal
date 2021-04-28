@@ -28,8 +28,6 @@ library
       Assemble
       Model
       Navigation
-      Orientations
-      Show
       Transformation
   other-modules:
       Paths_tree
@@ -57,7 +55,6 @@ test-suite tree-test
   other-modules:
       AssembleSpec
       NavigationSpec
-      OrientationSpec
       TestUtils
       TransformationSpec
       Paths_tree
