@@ -52,12 +52,12 @@ orientToLeft   = testCase "Must be Left"  $ assertEqual "Because 30 > 25"  Left 
 orientIfEquals = testCase "Must be Left"  $ assertEqual "Because 30 == 30" Left  $ directionRelativeTo 30 30
 orientToRight  = testCase "Must be Right" $ assertEqual "Because 30 < 35"  Right $ directionRelativeTo 30 35
 
-traceDirectionEmpty =         testCase "Trace the direction of empty array"     $ assertEqual "Must be empty" []     $ traceDirection []              []
-traceDirectionSingleElement = testCase "Trace the direction of 1 element array" $ assertEqual "Must be empty" []     $ traceDirection [0]             []
-traceDirectionComplex =       testCase "Trace the direction of a complex trace" $ assertEqual "" [Left, Left, Right] $ traceDirection [30, 25, 5, 10] []
+traceDirectionEmpty =         testCase "Trace the direction of empty array"     $ assertEqual "Must be empty" []     $ traceDirection []
+traceDirectionSingleElement = testCase "Trace the direction of 1 element array" $ assertEqual "Must be empty" []     $ traceDirection [0]
+traceDirectionComplex =       testCase "Trace the direction of a complex trace" $ assertEqual "" [Left, Left, Right] $ traceDirection [30, 25, 5, 10]
 
-clrOnComplex = testCase "CLR in the example tree" $ assertEqual "" [30, 25, 5, 10, 30, 35, 50, 100, 60, 65] $ clr (Just baseTree) []
-clrOnEmpty   = testCase "CLR on empty tree"       $ assertEqual "Must be empty list" [] $ clr Nothing []
+clrOnComplex = testCase "CLR in the example tree" $ assertEqual "" [30, 25, 5, 10, 30, 35, 50, 100, 60, 65] $ clr $ Just baseTree
+clrOnEmpty   = testCase "CLR on empty tree"       $ assertEqual "Must be empty list" [] $ clr Nothing
 
 depthOnComplex = testCase "Depth of complex tree"     $ assertEqual "Must be 6" 6 $ depth (Just baseTree) 0
 depthOnSingle  = testCase "Depth of single node tree" $ assertEqual "Must be 1" 1 $ depth (Just Node { value = 0, left = Nothing, right = Nothing }) 0

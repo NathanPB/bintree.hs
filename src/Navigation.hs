@@ -17,10 +17,13 @@ directionRelativeTo parent child
  | child <= parent = Left
  | otherwise       = Right
 
-traceDirection :: [Int]->[Direction]->[Direction]
-traceDirection [] trace = trace
-traceDirection (x:[]) trace = trace
-traceDirection nodes@(parent:child:_) trace = traceDirection (tail nodes) (trace ++ [directionRelativeTo parent child])
+traceDirection' :: [Int]->[Direction]->[Direction]
+traceDirection' [] trace = trace
+traceDirection' (x:[]) trace = trace
+traceDirection' nodes@(parent:child:_) trace = traceDirection' (tail nodes) (trace ++ [directionRelativeTo parent child])
+
+traceDirection :: [Int]->[Direction]
+traceDirection [] = (flip traceDirection') []
 
 find :: Maybe Node->Int->[Direction]->(Maybe Node, [Direction])
 find Nothing _ stack    = (Nothing, stack)
@@ -46,9 +49,9 @@ depth node layer = do
     Just x -> max (depth (left x) layer + 1) (depth (right x) layer + 1)
 
 
-clr :: Maybe Node->[Int]->[Int]
-clr Nothing stack                                          = stack
-clr (Just (Node { left = l, right = r, value = x })) stack = clr r $ clr l $ stack ++ [x]
+clr :: Maybe Node->[Int]
+clr Nothing     = []
+clr (Just node) = [value node] ++ (clr $ left node) ++ (clr $ right node)
 
 nodeAt :: Direction->Node->Maybe Node
 nodeAt Left  = left
@@ -65,4 +68,3 @@ navigateWith' node [] = node
 navigateWith' node (d:ds) = case nodeAt d node of
   Nothing -> node
   Just children -> navigateWith' children ds
-  
