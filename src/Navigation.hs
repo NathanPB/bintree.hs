@@ -13,7 +13,9 @@ import Model
 import Prelude hiding (Left, Right)
 
 directionRelativeTo :: Int->Int->Direction
-directionRelativeTo parent child = if child <= parent then Left else Right
+directionRelativeTo parent child
+ | child <= parent = Left
+ | otherwise       = Right
 
 traceDirection :: [Int]->[Direction]->[Direction]
 traceDirection [] trace = trace
@@ -28,11 +30,11 @@ find (Just x) val stack
      where direction = directionRelativeTo (value x) val
 
 findTraced' :: Node->Int->[Node]->[Node]
-findTraced' node val trace =
-  if val == value node then trace else
-  case nodeAt (directionRelativeTo (value node) val) node of
-    Nothing -> trace
-    Just nextNode -> findTraced' nextNode val $ trace ++ [nextNode]
+findTraced' node val trace
+ | val == value node = trace
+ | otherwise = case nodeAt (directionRelativeTo (value node) val) node of
+   Nothing -> trace
+   Just nextNode -> findTraced' nextNode val $ trace ++ [nextNode]
 
 findTraced :: Node->Int->[Direction]
 findTraced node val = traceDirection (map value (findTraced' node val [])) []
