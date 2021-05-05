@@ -23,7 +23,7 @@ traceDirection' (x:[]) trace = trace
 traceDirection' nodes@(parent:child:_) trace = traceDirection' (tail nodes) (trace ++ [directionRelativeTo parent child])
 
 traceDirection :: [Int]->[Direction]
-traceDirection [] = (flip traceDirection') []
+traceDirection = (flip traceDirection') []
 
 find :: Maybe Node->Int->[Direction]->(Maybe Node, [Direction])
 find Nothing _ stack    = (Nothing, stack)
@@ -40,7 +40,7 @@ findTraced' node val trace
    Just nextNode -> findTraced' nextNode val $ trace ++ [nextNode]
 
 findTraced :: Node->Int->[Direction]
-findTraced node val = traceDirection (map value (findTraced' node val [])) []
+findTraced node val = traceDirection $ map value (findTraced' node val [])
 
 depth :: Maybe Node->Int->Int
 depth node layer = do
