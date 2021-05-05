@@ -1,4 +1,4 @@
-module Transformation (append, setNodeAt, deleteNode) where
+module Transformation (append, setNodeAt, deleteNode, rotate) where
 
 import Model
 import Navigation
@@ -28,3 +28,51 @@ deleteNode (Node { left = Just l, right = Just r })           [] = Just Node {
 deleteNode node (direction:directionStack) = case (nodeAt direction node) of
   Nothing -> Nothing
   Just x  -> Just $ setNodeAt node direction $ deleteNode x directionStack
+
+rotate :: Node->Node
+
+-- LL Rotation
+rotate n1@(Node { left = Just n2@(Node { left = Just n3, right = Nothing }), right = Nothing}) = Node {
+    left = Just n3,
+    right = Just $ setNodeAt n1 Left Nothing,
+    value = value n2
+  }
+
+-- RR Rotation
+rotate n1@(Node { right = Just n2@(Node { right = Just n3, left = Nothing }), left = Nothing}) = Node {
+  left = Just $ setNodeAt n1 Right Nothing,
+  right = Just n3,
+  value = value n2
+  }
+
+-- LR Rotation
+rotate n1@(Node { left = Just n2@(Node { left = Nothing, right = Just n3 }), right = Nothing }) =
+  rotate Node {
+    left = Just Node {
+      left = Just Node {
+        left = left n3,
+        right = right n3,
+        value = value n2
+      },
+      right = Nothing,
+      value = value n3
+    },
+    right = Nothing,
+    value = value n1
+  }
+
+-- RL Rotation
+rotate n1@(Node { right = Just n2@(Node { left = Just n3, right = Nothing }), left = Nothing }) =
+  rotate Node {
+    right = Just Node {
+      right = Just Node {
+        left = left n3,
+        right = right n3,
+        value = value n2
+      },
+      left = Nothing,
+      value = value n3
+    },
+    left = Nothing,
+    value = value n1
+  }

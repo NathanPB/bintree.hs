@@ -10,7 +10,8 @@ import Prelude hiding (Left, Right)
 
 transformationSpecs = [
   deleteLeaf, deletePartialBranch, deleteFullBranch,
-  setNodeAtLeft, setNodeAtRight, setNothingAtLeft, setNothingAtRight]
+  setNodeAtLeft, setNodeAtRight, setNothingAtLeft, setNothingAtRight,
+  llRotation, rrRotation, lrRotation, rlRotation]
 
 baseTree = treeFrom [30, 25, 35, 50, 30, 5, 100, 60, 65, 10]
 
@@ -41,3 +42,19 @@ setNothingAtLeft = testCase "Remove the node at the left" $
 setNothingAtRight = testCase "Remove the node at the right" $
   assertTreeEqual "Must be the root tree without the right branch" [30, 25, 5, 10, 30] $
   setNodeAt baseTree Right Nothing
+
+llRotation = testCase "Performs a LL rotation" $
+  assertTreeEqual "Must be the same tree, but balanced" [20, 10, 30] $
+  rotate $ treeFrom [30, 20, 10]
+
+rrRotation = testCase "Performs a RR rotation" $
+  assertTreeEqual "Must be the same tree, but balanced" [20, 10, 30] $
+  rotate $ treeFrom [10, 20, 30]
+
+lrRotation = testCase "Performs a LR rotation" $
+  assertTreeEqual "Must be the same tree, but balanced" [20, 10, 30] $
+  rotate $ treeFrom [30, 10, 20]
+
+rlRotation = testCase "Performs a RL rotation" $
+  assertTreeEqual "Must be the same tree, but balanced" [20, 10, 30] $
+  rotate $ treeFrom [10, 30, 20]
