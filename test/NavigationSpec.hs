@@ -49,16 +49,11 @@ navigationSpecs = [
   depthOnComplex, depthOnSingle, depthOnEmpty,
   nodeAtLeft, nodeAtRight,
   orientToLeft, orientIfEquals, orientToRight,
-  traceDirectionEmpty, traceDirectionSingleElement, traceDirectionComplex,
   balanceFactor1, balanceFactor2, balanceFactor3, balanceFactor4]
 
 orientToLeft   = testCase "Must be Left"  $ assertEqual "Because 30 > 25"  Left  $ directionRelativeTo 30 25
 orientIfEquals = testCase "Must be Left"  $ assertEqual "Because 30 == 30" Left  $ directionRelativeTo 30 30
 orientToRight  = testCase "Must be Right" $ assertEqual "Because 30 < 35"  Right $ directionRelativeTo 30 35
-
-traceDirectionEmpty =         testCase "Trace the direction of empty array"     $ assertEqual "Must be empty" []     $ traceDirection []
-traceDirectionSingleElement = testCase "Trace the direction of 1 element array" $ assertEqual "Must be empty" []     $ traceDirection [0]
-traceDirectionComplex =       testCase "Trace the direction of a complex trace" $ assertEqual "" [Left, Left, Right] $ traceDirection [30, 25, 5, 10]
 
 clrOnComplex = testCase "CLR in the example tree" $ assertEqual "" [30, 25, 5, 10, 30, 35, 50, 100, 60, 65] $ clr $ Just baseTree
 clrOnEmpty   = testCase "CLR on empty tree"       $ assertEqual "Must be empty list" [] $ clr Nothing

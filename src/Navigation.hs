@@ -2,11 +2,9 @@ module Navigation (
   nodeAt,
   navigateWith, navigateWith',
   find,
-  findTraced, findTraced',
   depth,
   clr,
   directionRelativeTo,
-  traceDirection,
   balanceFactor
 ) where
 
@@ -18,14 +16,6 @@ directionRelativeTo parent child
  | child <= parent = Left
  | otherwise       = Right
 
-traceDirection' :: [Int]->[Direction]->[Direction]
-traceDirection' [] trace = trace
-traceDirection' (x:[]) trace = trace
-traceDirection' nodes@(parent:child:_) trace = traceDirection' (tail nodes) (trace ++ [directionRelativeTo parent child])
-
-traceDirection :: [Int]->[Direction]
-traceDirection = (flip traceDirection') []
-
 find :: Maybe Node->Int->[Direction]->(Maybe Node, [Direction])
 find Nothing _ stack    = (Nothing, stack)
 find (Just x) val stack
@@ -33,22 +23,11 @@ find (Just x) val stack
  | otherwise = find (nodeAt direction x) val (stack ++ [direction])
      where direction = directionRelativeTo (value x) val
 
-findTraced' :: Node->Int->[Node]->[Node]
-findTraced' node val trace
- | val == value node = trace
- | otherwise = case nodeAt (directionRelativeTo (value node) val) node of
-   Nothing -> trace
-   Just nextNode -> findTraced' nextNode val $ trace ++ [nextNode]
-
-findTraced :: Node->Int->[Direction]
-findTraced node val = traceDirection $ map value (findTraced' node val [])
-
 depth :: Maybe Node->Int->Int
 depth node layer = do
   case node of
     Nothing -> layer
     Just x -> max (depth (left x) layer + 1) (depth (right x) layer + 1)
-
 
 clr :: Maybe Node->[Int]
 clr Nothing     = []
