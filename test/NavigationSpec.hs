@@ -51,9 +51,9 @@ navigationSpecs = [
   orientToLeft, orientIfEquals, orientToRight,
   balanceFactor1, balanceFactor2, balanceFactor3, balanceFactor4]
 
-orientToLeft   = testCase "Must be Left"  $ assertEqual "Because 30 > 25"  Left  $ directionRelativeTo 30 25
-orientIfEquals = testCase "Must be Left"  $ assertEqual "Because 30 == 30" Left  $ directionRelativeTo 30 30
-orientToRight  = testCase "Must be Right" $ assertEqual "Because 30 < 35"  Right $ directionRelativeTo 30 35
+orientToLeft   = testCase "Direction relative of 30 to 25"  $ assertEqual "Because 30 > 25"  Left  $ directionRelativeTo 30 25
+orientIfEquals = testCase "Direction relative of 30 to 30"  $ assertEqual "Because 30 == 30" Left  $ directionRelativeTo 30 30
+orientToRight  = testCase "Direction relative of 30 to 35"  $ assertEqual "Because 30 < 35"  Right $ directionRelativeTo 30 35
 
 clrOnComplex = testCase "CLR in the example tree" $ assertEqual "" [30, 25, 5, 10, 30, 35, 50, 100, 60, 65] $ clr $ Just baseTree
 clrOnEmpty   = testCase "CLR on empty tree"       $ assertEqual "Must be empty list" [] $ clr Nothing
