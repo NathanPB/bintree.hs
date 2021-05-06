@@ -3,6 +3,7 @@ module NavigationSpec (navigationSpecs) where
 
 import Model
 import Navigation
+import Assemble
 import Test.Tasty
 import Test.Tasty.HUnit
 import Prelude hiding (Left, Right)
@@ -41,12 +42,15 @@ baseTree = Node {
   }
 }
 
+unbalancedTree = treeFrom [0, 1, 2, 3, 4, -1, -2, -3, -4]
+
 navigationSpecs = [
   clrOnComplex, clrOnEmpty,
   depthOnComplex, depthOnSingle, depthOnEmpty,
   nodeAtLeft, nodeAtRight,
   orientToLeft, orientIfEquals, orientToRight,
-  traceDirectionEmpty, traceDirectionSingleElement, traceDirectionComplex ]
+  traceDirectionEmpty, traceDirectionSingleElement, traceDirectionComplex,
+  balanceFactor1, balanceFactor2, balanceFactor3, balanceFactor4]
 
 orientToLeft   = testCase "Must be Left"  $ assertEqual "Because 30 > 25"  Left  $ directionRelativeTo 30 25
 orientIfEquals = testCase "Must be Left"  $ assertEqual "Because 30 == 30" Left  $ directionRelativeTo 30 30
@@ -65,3 +69,8 @@ depthOnEmpty   = testCase "Depth of empty tree"       $ assertEqual "Must be 0" 
 
 nodeAtLeft  = testCase "Node at the left of the root" $ assertEqual "Must be Just 25" (Just 25) $ case nodeAt Left baseTree of Nothing -> Nothing; Just x -> Just $ value x
 nodeAtRight = testCase "Not at the right of the root" $ assertEqual "Must be Just 35" (Just 35) $ case nodeAt Right baseTree of Nothing -> Nothing; Just x -> Just $ value x
+
+balanceFactor1 = testCase "Check the balance of the Right > Right > Right branch" $ assertEqual "Must be 1" 1 $ balanceFactor $ navigateWith' unbalancedTree [Right, Right, Right]
+balanceFactor2 = testCase "Check the balance of the Right branch"                 $ assertEqual "Must be 3" 3 $ balanceFactor $ navigateWith' unbalancedTree [Right]
+balanceFactor3 = testCase "Check the balance of the Left branch"                  $ assertEqual "Must be 3" 3 $ balanceFactor $ navigateWith' unbalancedTree [Left]
+balanceFactor4 = testCase "Check the balance of the Left > Left branch"           $ assertEqual "Must be 2" 2 $ balanceFactor $ navigateWith' unbalancedTree [Left, Left]

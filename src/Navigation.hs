@@ -6,7 +6,8 @@ module Navigation (
   depth,
   clr,
   directionRelativeTo,
-  traceDirection
+  traceDirection,
+  balanceFactor
 ) where
 
 import Model
@@ -68,3 +69,9 @@ navigateWith' node [] = node
 navigateWith' node (d:ds) = case nodeAt d node of
   Nothing -> node
   Just children -> navigateWith' children ds
+
+balanceFactor :: Node->Int
+balanceFactor (Node { left = Just n,  right = Nothing }) = depth (Just n) 0
+balanceFactor (Node { right = Just n, left = Nothing  }) = depth (Just n) 0
+balanceFactor (Node { left = Nothing, right = Nothing }) = 0
+balanceFactor (Node { left = Just l,  right = Just r  }) = (balanceFactor l) - (balanceFactor r)

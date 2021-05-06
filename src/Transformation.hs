@@ -1,4 +1,4 @@
-module Transformation (append, setNodeAt, deleteNode, rotate) where
+module Transformation (append, appendBalanced, setNodeAt, deleteNode, rotate, balance) where
 
 import Model
 import Navigation
@@ -10,6 +10,12 @@ append Nothing val = Node { left = Nothing, right = Nothing, value = val }
 append (Just node) val = case (directionRelativeTo (value node) val) of
   Left  -> Node { left  = Just $ append (left  node) val, right = right node, value = value node }
   Right -> Node { right = Just $ append (right node) val, left = left node,   value = value node }
+
+appendBalanced :: Maybe Node->Int->Node
+appendBalanced Nothing val = Node { left = Nothing, right = Nothing, value = val }
+appendBalanced (Just node) val = case (directionRelativeTo (value node) val) of
+  Left  -> Node { left  = Just $ balance $ append (left  node) val, right = right node, value = value node }
+  Right -> Node { right = Just $ balance $ append (right node) val, left = left node,   value = value node }
 
 setNodeAt :: Node->Direction->Maybe Node->Node
 setNodeAt root Left  to = Node { left = to,  right = right root, value = value root }
@@ -76,3 +82,11 @@ rotate n1@(Node { right = Just n2@(Node { left = Just n3, right = Nothing }), le
     left = Nothing,
     value = value n1
   }
+
+rotate node = node
+
+balance :: Node->Node
+balance node = case abs $ balanceFactor node of
+  0 -> node
+  1 -> node
+  _ -> rotate node
