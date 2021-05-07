@@ -3,7 +3,7 @@ module Navigation (
   navigateWith, navigateWith',
   find,
   depth,
-  clr,
+  clr, lcr, rcl,
   directionRelativeTo,
   balanceFactor
 ) where
@@ -32,6 +32,15 @@ depth node layer = do
 clr :: Maybe Node->[Int]
 clr Nothing     = []
 clr (Just node) = [value node] ++ (clr $ left node) ++ (clr $ right node)
+
+lcr :: Maybe Node->[Int]
+lcr Nothing     = []
+lcr (Just node) = (lcr $ left node) ++ [value node] ++ (lcr $ right node)
+
+rcl :: Maybe Node->[Int]
+rcl Nothing     = []
+rcl (Just node) = (rcl $ right node) ++ [value node] ++ (rcl $ left node)
+
 
 nodeAt :: Direction->Node->Maybe Node
 nodeAt Left  = left
